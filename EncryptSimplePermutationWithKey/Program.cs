@@ -119,9 +119,27 @@ namespace EncryptSimplePermutationWithKey
         }
         static string MakeDecryptText(string Key, string EncryptText)
         {
-            
-
-            string NewText = "";            
+            string NewText = "";
+            var step = (int)Math.Ceiling((decimal)EncryptText.Length / Key.Length);
+            Dictionary<int, string> DecryptedText = new Dictionary<int, string>(Key.Length);
+            char[] sortKey = Key.ToCharArray();
+            Array.Sort(sortKey);
+            for (var i = 0; i < Key.Length; i++)
+            {
+                string str = "";
+                for (var j = 0; j < step; j++)
+                {
+                    if ((j * Key.Length + i)<EncryptText.Length)
+                    {
+                        str += EncryptText[j * Key.Length + i];
+                    }                    
+                }
+                DecryptedText.Add(sortKey[i], str);
+            }
+            foreach(var i in Key)
+            {
+                NewText += DecryptedText[i];
+            }                        
             return NewText;
         }
     }
