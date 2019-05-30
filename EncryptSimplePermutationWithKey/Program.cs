@@ -63,7 +63,31 @@ namespace EncryptSimplePermutationWithKey
         static string MakeEncryptText(string Key, string NormalText)
         {
             string NewText = "";
-            
+            var step = (int)Math.Ceiling((decimal)NormalText.Length / Key.Length);
+            Dictionary<int, string> EncryptedText = new Dictionary<int, string>(Key.Length);
+            for (var i=0; i<Key.Length; i++)
+            {
+                if ((i+1)*step>NormalText.Length)
+                {
+                    EncryptedText.Add(Key[i], NormalText.Substring(i * step));
+                }
+                else
+                {
+                    EncryptedText.Add(Key[i], NormalText.Substring(i * step, step));
+                }                
+            }
+            char[] sortKey = Key.ToCharArray();
+            Array.Sort(sortKey);
+            for (var i=0; i<step;i++)
+            {
+                for(var j=0; j< sortKey.Length; j++)
+                {
+                    if (EncryptedText[sortKey[j]].Length>i)
+                    {
+                        NewText += EncryptedText[sortKey[j]][i];
+                    }
+                }
+            }                        
             return NewText;
         }
         static void DecryptText()
@@ -95,8 +119,9 @@ namespace EncryptSimplePermutationWithKey
         }
         static string MakeDecryptText(string Key, string EncryptText)
         {
-            string NewText = "";
             
+
+            string NewText = "";            
             return NewText;
         }
     }
