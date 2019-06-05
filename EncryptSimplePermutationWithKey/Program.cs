@@ -36,29 +36,36 @@ namespace EncryptSimplePermutationWithKey
         {
             Console.WriteLine("Введите ключ ");
             string Key = Console.ReadLine();
-            try
+            if ((Key.Length!=0)&&(Key.Distinct().Count()== Key.Length))
             {
-                var i = 1 / Key.Length;
-                Console.WriteLine("Введите путь к файлу с кодируемым текстом");
-                var path = Console.ReadLine();
-                string NormalText = "";
-                using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+                try
                 {
-                    NormalText = sr.ReadToEnd();
+                    Console.WriteLine("Введите путь к файлу с кодируемым текстом");
+                    var path = Console.ReadLine();
+                    string NormalText = "";
+                    using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+                    {
+                        NormalText = sr.ReadToEnd();
+                    }
+                    var NewText = MakeEncryptText(Key, NormalText);
+                    Console.WriteLine("Введите путь к файлу с закодированным текстом");
+                    path = Console.ReadLine();
+                    using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.Default))
+                    {
+                        sw.WriteLine(Key);
+                        sw.WriteLine(NewText);
+                    }
                 }
-                var NewText = MakeEncryptText(Key, NormalText);
-                Console.WriteLine("Введите путь к файлу с закодированным текстом");
-                path = Console.ReadLine();
-                using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.Default))
+                catch (Exception e)
                 {
-                    sw.WriteLine(Key);
-                    sw.WriteLine(NewText);
+                    Console.WriteLine(e.Message);
                 }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Ключ должен быть последовательностью уникальных смволов");
             }
+            
         }
         static string MakeEncryptText(string Key, string NormalText)
         {
