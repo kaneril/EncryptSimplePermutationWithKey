@@ -108,8 +108,10 @@ namespace EncryptSimplePermutationWithKey
                 using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
                 {
                     Key = sr.ReadLine();
-                    var i = 1 / Key.Length;
-                    EncryptText = sr.ReadToEnd();
+                    if ((Key.Length != 0) && (Key.Distinct().Count() == Key.Length))
+                    {
+                        EncryptText = sr.ReadToEnd();
+                    }                        
                 }
                 var NewText = MakeDecryptText(Key, EncryptText);
                 Console.WriteLine("Введите путь к файлу с раскодированным текстом");
