@@ -69,7 +69,7 @@ namespace EncryptSimplePermutationWithKey
             {
                 if ((i+1)*step>NormalText.Length)
                 {
-                    EncryptedText.Add(Key[i], NormalText.Substring(i * step));
+                    EncryptedText.Add(Key[i], NormalText.Substring(i * step).PadRight(step, ' '));
                 }
                 else
                 {
